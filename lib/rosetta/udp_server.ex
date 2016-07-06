@@ -1,8 +1,8 @@
-defmodule Nodeponics.UDPServer do
+defmodule Rosetta.UDPServer do
     use GenServer
     require Logger
-    alias Nodeponics.DatagramSupervisor
-    alias Nodeponics.Message
+    alias Rosetta.DatagramSupervisor
+    alias Rosetta.Message
 
     defmodule WifiHandler do
         use GenEvent
@@ -21,14 +21,14 @@ defmodule Nodeponics.UDPServer do
         end
     end
 
-    @cipher_key Application.get_env(:nodeponics, :cipher_key) <> <<0>>
+    @cipher_key Application.get_env(:rosetta, :cipher_key) <> <<0>>
 
     defmodule State do
         defstruct [:ip, :udp, :port]
     end
 
-    @port Application.get_env(:nodeponics, :udp_port)
-    @multicast Application.get_env(:nodeponics, :multicast_address)
+    @port Application.get_env(:rosetta, :udp_port)
+    @multicast Application.get_env(:rosetta, :multicast_address)
     @interfaces ['wlan0', 'eth0']
 
     def start_link do
@@ -55,10 +55,10 @@ defmodule Nodeponics.UDPServer do
 
     def handle(message = %Message{}) do
         case Process.whereis(message.id) do
-            nil -> Nodeponics.NodeSupervisor.start_node(message)
+            nil -> Rosetta.NodeSupervisor.start_node(message)
             _ -> true
         end
-        Nodeponics.Node.update_state(message.id, message)
+        Rosetta.Node.update_state(message.id, message)
         send(message.id, message)
     end
 
@@ -91,8 +91,8 @@ defmodule Nodeponics.UDPServer do
             Task.Supervisor.start_child(DatagramSupervisor, fn ->
                 process(ip, port, data)
             end)
-            :inet.setopts(socket, [active: 1])
         end
+        :inet.setopts(socket, [active: 1])
         {:noreply, state}
     end
 

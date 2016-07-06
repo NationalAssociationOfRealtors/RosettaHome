@@ -1,8 +1,8 @@
-defmodule Nodeponics.Node.Timelapse do
+defmodule Rosetta.Node.Timelapse do
     use GenEvent
     use Timex
     alias ExAws.{S3, Operation}
-    alias Nodeponics.Event
+    alias Rosetta.Event
 
     defmodule State do
         defstruct [:id, last: nil, refresh: 600]

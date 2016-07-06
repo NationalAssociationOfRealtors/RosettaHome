@@ -1,16 +1,16 @@
-defmodule Nodeponics.TCPServer do
+defmodule Rosetta.TCPServer do
 
-    alias Nodeponics.API
-    alias Nodeponics.Websocket
+    alias Rosetta.API
+    alias Rosetta.Websocket
 
-    @port Application.get_env(:nodeponics, :tcp_port)
+    @port Application.get_env(:rosetta, :tcp_port)
 
     def start_link do
         dispatch = :cowboy_router.compile([
             { :_,
                 [
-                    {"/", :cowboy_static, {:priv_file, :nodeponics, "index.html"}},
-                    {"/static/[...]", :cowboy_static, {:priv_dir,  :nodeponics, "static"}},
+                    {"/", :cowboy_static, {:priv_file, :rosetta, "index.html"}},
+                    {"/static/[...]", :cowboy_static, {:priv_dir,  :rosetta, "static"}},
                     {"/ws", API.Websocket, []},
                     {"/stream", API.MJPEGHandler, []},
                     {"/nodes", API.Node, []},

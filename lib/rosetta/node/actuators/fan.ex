@@ -1,6 +1,6 @@
-defmodule Nodeponics.Node.Actuator.Fan do
+defmodule Rosetta.Node.Actuator.Fan do
     use GenEvent
-    alias Nodeponics.Event
+    alias Rosetta.Event
 
     def handle_event(_event = %Event{}, state) do
         {:ok, state}

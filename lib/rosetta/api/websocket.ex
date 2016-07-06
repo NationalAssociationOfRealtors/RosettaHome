@@ -1,10 +1,10 @@
-defmodule Nodeponics.API.Websocket do
+defmodule Rosetta.API.Websocket do
     @behaviour :cowboy_websocket_handler
     require Logger
 
-    alias Nodeponics.Node
-    alias Nodeponics.Event
-    alias Nodeponics.Message
+    alias Rosetta.Node
+    alias Rosetta.Event
+    alias Rosetta.Message
 
     @node "node"
 

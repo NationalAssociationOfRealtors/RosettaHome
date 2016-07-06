@@ -1,11 +1,11 @@
-defmodule Nodeponics.Node.Trigger.Clock do
+defmodule Rosetta.Node.Trigger.Clock do
 
     defmacro __using__(start_hour: start_hour, end_hour: end_hour, on_callback: on_callback, off_callback: off_callback, thing: thing) do
         quote bind_quoted: [start_hour: start_hour, end_hour: end_hour, on_callback: on_callback, off_callback: off_callback, thing: thing] do
             use Timex
             require Logger
-            alias Nodeponics.Node
-            alias Nodeponics.Event
+            alias Rosetta.Node
+            alias Rosetta.Event
 
             @behaviour GenEvent
             @start_hour start_hour

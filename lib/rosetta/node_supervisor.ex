@@ -1,4 +1,4 @@
-defmodule Nodeponics.NodeSupervisor do
+defmodule Rosetta.NodeSupervisor do
     use Supervisor
     require Logger
     @name __MODULE__
@@ -9,7 +9,7 @@ defmodule Nodeponics.NodeSupervisor do
 
     def init(:ok) do
         children = [
-            worker(Nodeponics.Node, [], restart: :transient)
+            worker(Rosetta.Node, [], restart: :transient)
         ]
         supervise(children, strategy: :simple_one_for_one)
     end

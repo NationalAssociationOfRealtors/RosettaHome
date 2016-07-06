@@ -1,7 +1,7 @@
-defmodule Nodeponics.Node.Sensor.Camera do
+defmodule Rosetta.Node.Sensor.Camera do
     use GenServer
     require Logger
-    alias Nodeponics.Event
+    alias Rosetta.Event
 
     defmodule State do
         defstruct [:url, :events, image: "0", refresh: 0]

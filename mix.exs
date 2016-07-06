@@ -1,9 +1,9 @@
-defmodule Nodeponics.Mixfile do
+defmodule Rosetta.Mixfile do
     use Mix.Project
 
     def project do
     [
-        app: :nodeponics,
+        app: :rosetta,
         version: "0.0.1",
         elixir: "~> 1.2",
         build_embedded: Mix.env == :prod,
@@ -15,7 +15,7 @@ defmodule Nodeponics.Mixfile do
     def application do
     [
         applications: [:logger, :cowboy, :httpoison, :sweet_xml, :xmerl, :timex, :poison, :ex_aws],
-        mod: {Nodeponics, []}
+        mod: {Rosetta, []}
     ]
     end
 

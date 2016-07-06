@@ -1,5 +1,5 @@
-defmodule Nodeponics.Node.Actuator.Pump do
-    use Nodeponics.Node.Trigger.Frequency,
+defmodule Rosetta.Node.Actuator.Pump do
+    use Rosetta.Node.Trigger.Frequency,
         frequency: 900,
         runtime: 180,
         on_callback: "pumpon",

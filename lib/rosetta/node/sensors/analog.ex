@@ -1,5 +1,5 @@
-defmodule Nodeponics.Node.Sensor.Analog do
-    alias Nodeponics.Event
+defmodule Rosetta.Node.Sensor.Analog do
+    alias Rosetta.Event
 
     defmodule State do
         defstruct min: 99999999, max: 0, mean: 0, current: 0, total: 0, events: nil, sensor_type: nil

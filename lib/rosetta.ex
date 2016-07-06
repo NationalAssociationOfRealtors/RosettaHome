@@ -1,4 +1,4 @@
-defmodule Nodeponics do
+defmodule Rosetta do
     use Application
     require Logger
     alias :mnesia, as: Mnesia
@@ -14,7 +14,7 @@ defmodule Nodeponics do
     end
 
     def start(_type, _args) do
-        Nodeponics.Supervisor.start_link
+        Rosetta.Supervisor.start_link
     end
 
 end

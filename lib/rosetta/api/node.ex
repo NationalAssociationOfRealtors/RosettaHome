@@ -1,7 +1,7 @@
-defmodule Nodeponics.API.Node do
+defmodule Rosetta.API.Node do
     require Logger
-    alias Nodeponics.NodeSupervisor
-    alias Nodeponics.Node
+    alias Rosetta.NodeSupervisor
+    alias Rosetta.Node
 
     defmodule State do
         defstruct [:user]

@@ -1,13 +1,13 @@
-defmodule Nodeponics.Node do
+defmodule Rosetta.Node do
     use GenServer
     require Logger
 
-    alias Nodeponics.UDPServer
-    alias Nodeponics.Node.Sensor
-    alias Nodeponics.Node.Actuator
-    alias Nodeponics.Node.Clock
-    alias Nodeponics.Message
-    alias Nodeponics.Event
+    alias Rosetta.UDPServer
+    alias Rosetta.Node.Sensor
+    alias Rosetta.Node.Actuator
+    alias Rosetta.Node.Clock
+    alias Rosetta.Message
+    alias Rosetta.Event
     alias :mnesia, as: Mnesia
 
     @stats "stats"
@@ -67,7 +67,7 @@ defmodule Nodeponics.Node do
         {:ok, _clock} = Clock.start_link(events)
         {:ok, camera} = Sensor.Camera.start_link(url, events)
         actuators = add_event_handlers(events)
-        GenEvent.add_mon_handler(events, Nodeponics.Node.Timelapse, Atom.to_string(message.id))
+        GenEvent.add_mon_handler(events, Rosetta.Node.Timelapse, Atom.to_string(message.id))
         sensors = Enum.reduce(@sensor_keys, %Sensors{}, fn(x, acc) ->
             Map.put(acc, x, Sensor.Analog.start_link(events, x))
         end)

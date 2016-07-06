@@ -1,11 +1,11 @@
-defmodule Nodeponics.Node.Trigger.Frequency do
+defmodule Rosetta.Node.Trigger.Frequency do
 
     defmacro __using__(frequency: frequency, runtime: runtime, on_callback: on_callback, off_callback: off_callback, thing: thing) do
         quote bind_quoted: [frequency: frequency, runtime: runtime, on_callback: on_callback, off_callback: off_callback, thing: thing] do
             use Timex
             require Logger
-            alias Nodeponics.Node
-            alias Nodeponics.Event
+            alias Rosetta.Node
+            alias Rosetta.Event
 
             @behaviour GenEvent
             @frequency frequency

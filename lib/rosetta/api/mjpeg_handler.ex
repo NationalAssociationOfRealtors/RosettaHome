@@ -1,8 +1,8 @@
-defmodule Nodeponics.API.MJPEGHandler do
+defmodule Rosetta.API.MJPEGHandler do
     require Logger
 
-    alias Nodeponics.Node
-    alias Nodeponics.Event
+    alias Rosetta.Node
+    alias Rosetta.Event
     @boundary "boundarydonotcross"
 
     def delimiter do
