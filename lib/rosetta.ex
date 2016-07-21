@@ -1,22 +1,13 @@
 defmodule Rosetta do
     use Application
     require Logger
-    alias :mnesia, as: Mnesia
-
-    @name __MODULE__
-
-    defmodule Message do
-        defstruct [:id, :type, :data, :ip, :port]
-    end
-
-    defmodule Event do
-        defstruct [:type, :value, :id]
-    end
+    alias Rosetta.VoiceEvents
 
     def start(_type, _args) do
         {:ok, pid} = Rosetta.Supervisor.start_link
-        Movi.add_handler(Rosetta.Voice.Handler)
-        train_voice_recognition
+        Movi.add_handler(Rosetta.Voice.MoviHandler)
+        GenEvent.add_mon_handler(VoiceEvents, Rosetta.Voice.Events, [])
+        #train_voice_recognition
         {:ok, pid}
     end
 

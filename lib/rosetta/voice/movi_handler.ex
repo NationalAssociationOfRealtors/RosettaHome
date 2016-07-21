@@ -1,7 +1,12 @@
-defmodule Rosetta.Voice.Handler do
+defmodule Rosetta.Voice.MoviHandler do
     use GenEvent
     require Logger
-    alias Movi.Event
+    alias Movi.Event, as: MoviEvent
+    alias Rosetta.VoiceEvents
+
+    defmodule VoiceEvent do
+        defstruct [verbs: [], combinators: [], descriptors: [], locations: [], things: [], numbers: []]
+    end
 
     @verbs Application.get_env(:movi, :verbs)
     @combinators Application.get_env(:movi, :combinators)
@@ -10,10 +15,9 @@ defmodule Rosetta.Voice.Handler do
     @things Application.get_env(:movi, :things)
     @numbers Application.get_env(:movi, :numbers)
 
-    def handle_event(event = %Event{:message => message}, state) when message != nil do
+    def handle_event(event = %MoviEvent{:message => message, :code => code}, state) when message != nil and code == "201" do
         IO.inspect event
-        acc = %{:verbs => [], :combinators => [], :descriptors => [], :locations => [], :things => [], :numbers => []}
-        new_acc = Enum.reduce(message, acc, fn(word, acc) ->
+        acc = Enum.reduce(message, %VoiceEvent{}, fn(word, acc) ->
             cond do
                 Enum.any?(@verbs, fn(x) -> x == word end) ->
                     %{acc | :verbs => List.insert_at(acc.verbs, -1, word)}
@@ -31,7 +35,11 @@ defmodule Rosetta.Voice.Handler do
                     acc
             end
         end)
-        new_acc |> IO.inspect
+        GenEvent.notify(VoiceEvents, acc)
+        {:ok, state}
+    end
+
+    def handle_event(message, state) do
         {:ok, state}
     end
 

@@ -8,12 +8,12 @@ defmodule Rosetta.SSDPClient do
     @multicast_group {239,255,255,250}
 
     def discover_messages do
-        ["M-SEARCH * HTTP/1.1\r\nHOST: 239.255.255.250:1900\r\nMAN: \"ssdp:discover\"\r\nMX: 3\r\nST: ssdp:all\r\n\r\n",
+        ["M-SEARCH * HTTP/1.1\r\nHOST: 239.255.255.250:1900\r\nMAN: \"ssdp:discover\"\r\nMX: 3\r\nST: upnp:rootdevice\r\n\r\n",
         "TYPE: WM-DISCOVER\r\nVERSION: 1.0\r\n\r\nservices:com.marvell.wm.system*\r\n\r\n",]
     end
 
     def start_link do
-        GenServer.start(__MODULE__, @port, name: __MODULE__)
+        GenServer.start_link(__MODULE__, @port, name: __MODULE__)
     end
 
     def discover do
@@ -38,7 +38,7 @@ defmodule Rosetta.SSDPClient do
             Logger.info "Sending Discovery: #{m}"
             :gen_udp.send(state, @multicast_group, @port, m)
         end)
-        #Process.send_after(self, :discover, 60000)
+        Process.send_after(self, :discover, 60000)
         {:noreply, state}
     end
 
@@ -48,26 +48,26 @@ defmodule Rosetta.SSDPClient do
     end
 
     def handle_info({:udp, _s, ip, port, <<"HTTP/1.1 200 OK", rest :: binary>>}, state) do
-        Logger.info "HTTP OK"
+        #Logger.info "HTTP OK"
         parse_xml(rest)
         {:noreply, state}
     end
 
     def handle_info({:udp, _s, ip, port, <<"NOTIFY * HTTP/1.1", rest :: binary>>}, state) do
-        Logger.info "NOTIFY"
+        #Logger.info "NOTIFY"
         parse_xml(rest)
         {:noreply, state}
     end
 
     def handle_info({:udp, _s, ip, port, <<"TYPE: WM-NOTIFY", rest:: binary>>}, state) do
-        Logger.info "WM"
+        Logger.info "Found Radio Thermostat"
         IO.inspect parse_keys(rest)
         {:noreply, state}
     end
 
     def handle_info({:udp, _s, ip, port, rest}, state) do
         Logger.info "HUH"
-        IO.inspect parse_keys(rest)
+        IO.inspect rest
         {:noreply, state}
     end
 
@@ -86,11 +86,11 @@ defmodule Rosetta.SSDPClient do
     end
 
     def parse_xml(rest) do
-        IO.inspect rest
+        #IO.inspect rest
         resp = parse_keys(rest)
         case HTTPoison.get(Dict.get(resp, :location), [], hackney: [:insecure]) do
             {:ok, %HTTPoison.Response{status_code: 200, body: body}} ->
-                IO.inspect body
+                #IO.inspect body
                 f_name = body |> xpath(~x"//device/friendlyName/text()")
                 m_name = body |> xpath(~x"//device/modelName/text()")
                 Logger.info "Found #{f_name} (#{m_name}) on local network"

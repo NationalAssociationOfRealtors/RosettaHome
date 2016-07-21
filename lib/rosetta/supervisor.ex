@@ -11,10 +11,8 @@ defmodule Rosetta.Supervisor do
     def init(:ok) do
         children = [
             worker(Movi, [@tty]),
-            worker(Rosetta.TCPServer, []),
             worker(Rosetta.SSDPClient, []),
-            supervisor(Task.Supervisor, [[name: Rosetta.DatagramSupervisor]]),
-            supervisor(Rosetta.NodeSupervisor, []),
+            worker(Rosetta.VoiceEvents, []),
         ]
         supervise(children, strategy: :one_for_one)
     end
