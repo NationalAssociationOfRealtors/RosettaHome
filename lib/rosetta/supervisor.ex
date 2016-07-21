@@ -10,7 +10,7 @@ defmodule Rosetta.Supervisor do
 
     def init(:ok) do
         children = [
-            #worker(Rosetta.UDPServer, []),
+            worker(Movi, [@tty]),
             worker(Rosetta.TCPServer, []),
             worker(Rosetta.SSDPClient, []),
             supervisor(Task.Supervisor, [[name: Rosetta.DatagramSupervisor]]),

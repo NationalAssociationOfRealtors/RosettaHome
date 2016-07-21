@@ -14,7 +14,7 @@ defmodule Rosetta.Mixfile do
 
     def application do
     [
-        applications: [:logger, :cowboy, :httpoison, :sweet_xml, :xmerl, :timex, :poison, :ex_aws],
+        applications: [:logger, :cowboy, :httpoison, :sweet_xml, :xmerl, :timex, :poison, :ex_aws, :movi],
         mod: {Rosetta, []}
     ]
     end
@@ -27,6 +27,7 @@ defmodule Rosetta.Mixfile do
         {:sweet_xml, "~> 0.6.1"},
         {:httpoison, "~> 0.8.3"},
         {:ex_aws, "~> 0.5"},
+        {:movi, github: "NationalAssociationOfRealtors/movi"},
     ]
     end
 end

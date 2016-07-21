@@ -12,8 +12,13 @@ use Mix.Config
 #
 config :rosetta, udp_port: 5683, tcp_port: 8081, cipher_key: System.get_env("SKEY")
 config :rosetta, multicast_address: {239, 255, 41, 11}
+config :rosetta, tty: "/dev/ttyUSB0"
+config :movi, speed: 9600
+config :movi, callsign: "ROSETTA"
 
 config :ex_aws, region: "us-west-2"
+
+import_config "words.exs"
 #
 # And access this configuration in your application as:
 #

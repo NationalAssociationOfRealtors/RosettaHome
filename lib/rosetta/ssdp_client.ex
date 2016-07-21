@@ -38,7 +38,7 @@ defmodule Rosetta.SSDPClient do
             Logger.info "Sending Discovery: #{m}"
             :gen_udp.send(state, @multicast_group, @port, m)
         end)
-        Process.send_after(self, :discover, 60000)
+        #Process.send_after(self, :discover, 60000)
         {:noreply, state}
     end
 
