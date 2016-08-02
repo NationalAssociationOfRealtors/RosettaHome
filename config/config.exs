@@ -15,14 +15,16 @@ config :rosetta, name: "LAB"
 config :rosetta, tty: "/dev/ttyUSB0"
 config :movi, speed: 9600
 config :movi, callsign: "ROSETTA"
+config :lifx, tcp_server: false, tcp_port: 8800
 
 config :ex_aws, region: "us-west-2"
 
 import_config "words.exs"
+import_config "device_types.exs"
 #
 # And access this configuration in your application as:
 #
-#     Application.get_env(:nodeponics, :key)
+#     Application.get_env(:rosetta, :key)
 #
 # Or configure a 3rd-party app:
 #
