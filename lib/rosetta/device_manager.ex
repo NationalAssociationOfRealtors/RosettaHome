@@ -17,7 +17,7 @@ defmodule Rosetta.DeviceManager do
         end
 
         def handle_event(%Device{} = device, parent) do
-            send(parent, device)
+            send(parent, {:lifx, device})
             {:ok, parent}
         end
     end
@@ -32,7 +32,21 @@ defmodule Rosetta.DeviceManager do
         end
 
         def handle_event({:device, device} = obj, parent) do
-            send(parent, obj)
+            send(parent, {:ssdp, device})
+            {:ok, parent}
+        end
+    end
+
+    defmodule MDNSHandler do
+        use GenEvent
+        require Logger
+
+        def init do
+            {:ok, []}
+        end
+
+        def handle_event({:device, device} = obj, parent) do
+            send(parent, {:mdns, device})
             {:ok, parent}
         end
     end
@@ -43,20 +57,16 @@ defmodule Rosetta.DeviceManager do
 
     def init(:ok) do
         {:ok, events} = GenEvent.start_link([{:name, Rosetta.DeviceManager.Events}])
-        Lifx.Client.add_handler(LifxHandler)
-        SSDP.Client.add_handler(SSDPHandler)
-        {:ok, %State{ :events => events}}
+        Process.send_after(self(), :devices, 100)
+        {:ok, %State{:events => events}}
     end
 
-    def handle_info({:device, device}, state) do
-        Logger.info("Got SSDP device #{inspect device}")
+    def handle_info(:devices, state) do
+        Lifx.Client.devices |> IO.inspect
+        SSDP.Client.devices |> IO.inspect
+        Mdns.Client.devices |> IO.inspect
+        Process.send_after(self(), :devices, 1000)
         {:noreply, state}
     end
-
-    def handle_info(%Device{} = device, state) do
-        Logger.info("Got LIFX device #{inspect device}")
-        {:noreply, state}
-    end
-
 
 end
