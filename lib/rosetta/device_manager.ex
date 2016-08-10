@@ -3,6 +3,8 @@ defmodule Rosetta.DeviceManager do
     require Logger
     alias Lifx.Device.State, as: Device
 
+    @googlecast :"_googlecast._tcp.local"
+
     defmodule State do
         defstruct devices: [],
             events: nil
@@ -45,8 +47,8 @@ defmodule Rosetta.DeviceManager do
             {:ok, []}
         end
 
-        def handle_event({:device, device} = obj, parent) do
-            send(parent, {:mdns, device})
+        def handle_event(obj, parent) do
+            send(parent, obj)
             {:ok, parent}
         end
     end
@@ -57,15 +59,19 @@ defmodule Rosetta.DeviceManager do
 
     def init(:ok) do
         {:ok, events} = GenEvent.start_link([{:name, Rosetta.DeviceManager.Events}])
+        Mdns.Client.add_handler(MDNSHandler)
+        Mdns.Client.query(Atom.to_string(@googlecast))
         Process.send_after(self(), :devices, 100)
         {:ok, %State{:events => events}}
     end
 
     def handle_info(:devices, state) do
-        Lifx.Client.devices |> IO.inspect
-        SSDP.Client.devices |> IO.inspect
-        Mdns.Client.devices |> IO.inspect
         Process.send_after(self(), :devices, 1000)
+        {:noreply, state}
+    end
+
+    def handle_info({@googlecast, device}, state) do
+        Logger.debug("Google Cast Device: #{inspect device}")
         {:noreply, state}
     end
 
