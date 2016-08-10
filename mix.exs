@@ -31,7 +31,6 @@ defmodule Rosetta.Mixfile do
         {:lifx, github: "NationalAssociationOfRealtors/lifx"},
         {:ssdp, github: "NationalAssociationOfRealtors/ssdp"},
         {:mdns, github: "NationalAssociationOfRealtors/mdns"},
-        {:socket, "~> 0.3.5", [env: :prod, hex: :socket, optional: false, override: true]}
     ]
     end
 end
