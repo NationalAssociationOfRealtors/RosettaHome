@@ -17,7 +17,7 @@
   "mdns": {:git, "https://github.com/NationalAssociationOfRealtors/mdns.git", "d66d4bec783098955d483c7d035e629fd8ac5750", []},
   "metrics": {:hex, :metrics, "1.0.1", "25f094dea2cda98213cecc3aeff09e940299d950904393b2a29d191c346a8486", [:rebar3], []},
   "mimerl": {:hex, :mimerl, "1.0.2", "993f9b0e084083405ed8252b99460c4f0563e41729ab42d9074fd5e52439be88", [:rebar3], []},
-  "movi": {:git, "https://github.com/NationalAssociationOfRealtors/movi.git", "79e81c8521967ce1706be05c90173765dff4f4ca", []},
+  "movi": {:git, "https://github.com/NationalAssociationOfRealtors/movi.git", "a70d3201ab8bb43fc8094504bdf3a43bcac21385", []},
   "nerves": {:hex, :nerves, "0.3.1", "39650b1b0f70b283e9be89d296aa686036da0f5a5c13bc2fcbd26b8ec305ae87", [:mix], [{:porcelain, "~> 2.0", [hex: :porcelain, optional: false]}, {:exrm, "~> 1.0.4", [hex: :exrm, optional: false]}]},
   "nerves_interim_wifi": {:git, "https://github.com/nerves-project/nerves_interim_wifi.git", "5b243e0b8aa8a761dbdc4be5a9f49e020de32c8f", [branch: "master"]},
   "nerves_network_interface": {:hex, :nerves_network_interface, "0.3.1", "1d079d3cf3f8c7339611b265c3177fbc075651770a92b3f25e146e7629d69d85", [:mix, :make], []},

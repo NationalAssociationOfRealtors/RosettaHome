@@ -10,11 +10,13 @@ use Mix.Config
 
 # You can configure for your application as:
 #
-config :rosetta, multicast_address: {239, 255, 41, 11}
 config :rosetta, name: "LAB"
-config :rosetta, tty: "/dev/ttyUSB0"
-config :movi, speed: 9600
-config :movi, callsign: "ROSETTA"
+
+config :movi,
+    tty: "/dev/ttyUSB0",
+    speed: 9600,
+    callsign: "ROSETTA"
+
 config :lifx, tcp_server: false, tcp_port: 8800
 
 config :ex_aws, region: "us-west-2"

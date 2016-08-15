@@ -2,7 +2,6 @@ defmodule Rosetta.Supervisor do
     use Supervisor
 
     @name __MODULE__
-    @tty Application.get_env(:rosetta, :tty)
 
     def start_link do
         Supervisor.start_link(__MODULE__, :ok, name: @name)
@@ -10,7 +9,6 @@ defmodule Rosetta.Supervisor do
 
     def init(:ok) do
         children = [
-            worker(Movi, [@tty]),
             worker(Rosetta.VoiceEvents, []),
             worker(Rosetta.DeviceManager, []),
         ]

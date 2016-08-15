@@ -15,8 +15,8 @@ defmodule Rosetta.Voice.MoviHandler do
     @things Application.get_env(:movi, :things)
     @numbers Application.get_env(:movi, :numbers)
 
-    def handle_event(event = %MoviEvent{:message => message, :code => code}, state) when message != nil and code == "201" do
-        IO.inspect event
+    def handle_event(%MoviEvent{:message => message, :code => code} = event, state) when message != nil and code == 201 do
+        Logger.debug("#{inspect event}")
         acc = Enum.reduce(message, %VoiceEvent{}, fn(word, acc) ->
             cond do
                 Enum.any?(@verbs, fn(x) -> x == word end) ->
@@ -35,6 +35,7 @@ defmodule Rosetta.Voice.MoviHandler do
                     acc
             end
         end)
+        Logger.debug("#{inspect acc}")
         GenEvent.notify(VoiceEvents, acc)
         {:ok, state}
     end
